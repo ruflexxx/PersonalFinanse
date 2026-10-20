@@ -233,42 +233,6 @@ fun HomeScreen(
                     Spacer(modifier = Modifier.height(8.dp))
                 }
             }
-
-//            itemsIndexed(
-//                items = filteredExpenses,
-//                key = { _, expense -> expense.id }
-//            ) { index, expense ->
-//                if (!isExpanded || index < 5) {
-//                    val onEdit = remember(expense) { { onEditExpenseClick(expense) } }
-//                    ExpenseCard(
-//                        expense = expense,
-//                        onEditExpenseClick = onEdit,
-//                        showDivider = index < filteredExpenses.lastIndex
-//                    )
-//                }
-//                if(!isExpanded && index == 4 && filteredExpenses.size > 5) {
-//                    Spacer(modifier = Modifier.height(8.dp))
-//                    Box(
-//                        modifier = Modifier.fillMaxWidth(),
-//                        contentAlignment = Alignment.Center
-//                    ) {
-//                        androidx.compose.material3.TextButton(
-//                            onClick = {
-//                                isExpanded = true
-//                            }
-//                        ) {
-//                            Text(
-//                                text = "More",
-//                                color = TextPrimary,
-//                                fontSize = 16.sp,
-//                                fontWeight = FontWeight.Medium
-//                            )
-//                        }
-//                    }
-//                    Spacer(modifier = Modifier.height(8.dp))
-//
-//                }
-//            }
             item {
                 Spacer(Modifier.padding(24.dp))
             }
