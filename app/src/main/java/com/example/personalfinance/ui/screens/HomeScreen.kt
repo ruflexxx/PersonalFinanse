@@ -39,6 +39,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.personalfinance.domain.model.Expense
 import com.example.personalfinance.domain.model.categories
+import com.example.personalfinance.ui.components.EmptyStateScreen
 import com.example.personalfinance.ui.components.ExpenseCard
 import com.example.personalfinance.ui.components.TotalExpenseCard
 import com.example.personalfinance.ui.theme.DarkBackground
@@ -98,6 +99,7 @@ fun HomeScreen(
             result
         }
     }
+    val aa: List<Expense> = mutableListOf()
 
     Box(
         modifier = Modifier
@@ -181,56 +183,61 @@ fun HomeScreen(
                 }
             }
 
-
-            displayedGroups.forEach { (date, expenses) ->
-
-                item(key = "header_${date}") {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(
-                            text = formatExpenseHeaderDate(date),
-                            color = TextPrimary.copy(alpha = 0.7f),
-                            fontSize = 14.sp
-                        )
-                    }
-                }
-                itemsIndexed(
-                    items = expenses,
-                    key = { _, expense -> expense.id.toString() }
-                ) { index, expense ->
-                    ExpenseCard(
-                        expense = expense,
-                        onEditExpenseClick =  { onEditExpenseClick(expense) } ,
-                        showDivider = index < expenses.lastIndex
-                    )
-
-                }
-
-
-            }
-            if (!isExpanded && displayedGroups.size < filteredGroups.size) {
+            if (displayedGroups.isEmpty()) {
                 item {
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Box(
-                        modifier = Modifier.fillMaxWidth(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        androidx.compose.material3.TextButton(
-                            onClick = {
-                                isExpanded = true
-                            }
+                    EmptyStateScreen()
+                }
+            } else {
+                displayedGroups.forEach { (date, expenses) ->
+
+                    item(key = "header_${date}") {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            verticalAlignment = Alignment.CenterVertically
                         ) {
                             Text(
-                                text = "More",
-                                color = TextPrimary,
-                                fontSize = 16.sp,
-                                fontWeight = FontWeight.Medium
+                                text = formatExpenseHeaderDate(date),
+                                color = TextPrimary.copy(alpha = 0.7f),
+                                fontSize = 14.sp
                             )
                         }
                     }
-                    Spacer(modifier = Modifier.height(8.dp))
+                    itemsIndexed(
+                        items = expenses,
+                        key = { _, expense -> expense.id.toString() }
+                    ) { index, expense ->
+                        ExpenseCard(
+                            expense = expense,
+                            onEditExpenseClick = { onEditExpenseClick(expense) },
+                            showDivider = index < expenses.lastIndex
+                        )
+
+                    }
+
+
+                }
+                if (!isExpanded && displayedGroups.size < filteredGroups.size) {
+                    item {
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Box(
+                            modifier = Modifier.fillMaxWidth(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            androidx.compose.material3.TextButton(
+                                onClick = {
+                                    isExpanded = true
+                                }
+                            ) {
+                                Text(
+                                    text = "More",
+                                    color = TextPrimary,
+                                    fontSize = 16.sp,
+                                    fontWeight = FontWeight.Medium
+                                )
+                            }
+                        }
+                        Spacer(modifier = Modifier.height(8.dp))
+                    }
                 }
             }
             item {
